@@ -6,6 +6,7 @@ import { Header } from './authentication/Header';
 import SignUp from './authentication/SignUp';
 import LandingPage from './components/LandingPage';
 import NotFound from './authentication/NotFound';
+import Protected from './authentication/Protected';
 
 function App() {
   
@@ -20,9 +21,13 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
 
         {/* Protected route */}
-        <Route 
-          path="/auth"
-          element={isAuthenticated ? <LandingPage/> : <Navigate to="/" />}
+        <Route
+        path='/dashboard'
+        element={
+          <Protected>
+            <LandingPage/>
+          </Protected>
+        }
         />
 
         {/* 404 fallback */}
