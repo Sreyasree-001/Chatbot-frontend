@@ -1,123 +1,7 @@
-// import axios from "axios";
-// import React, { useState } from "react";
-// import { MdOutlineDelete } from "react-icons/md";
-
-// const suggestions = [
-//   "cheap electronics",
-//   "premium furniture",
-//   "show me air fryers",
-//   "between 20 and 100",
-// ];
-
-
-// const ChatWindow = ({ setProductResults, setQueryMessage }) => {
-
-//   const token = localStorage.getItem("token")
-//   const username = localStorage.getItem("username");
-//   const [query, setQuery] = useState("");
-//   const welcomeText = [
-//   {
-//       type: "bot",
-//       text: `Welcome 🌟 ${username} ! Need recommendations? Try these:`,
-//     },
-//     { type: "bot", text: `Example: ${suggestions.join("/")}` },
-// ]
-//   const [messages, setMessages] = useState(welcomeText);
-
-//   const sendQuery = async () => {
-//     if (!query.trim()) return;
-//     setMessages((prev) => [...prev, { type: "user", text: query }]);
-//     try {
-//       const res = await axios.get(
-//         `http://localhost:5000/api/search-products?q=${query}`,
-//         {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }
-//       );
-//       const products = res.data;
-//       setProductResults(products); //to display in the products section
-//       setQueryMessage(query);
-
-//       if (products.length === 0) {
-//         setMessages((prev) => [
-//           ...prev,
-//           { type: "bot", text: "No products found!" },
-//         ]);
-//       } else {
-//         setMessages((prev) => [
-//           ...prev,
-//           { type: "bot", text: `Found ${products.length} products:` },
-//           ...products.map((p) => ({
-//             type: "bot",
-//             text: `${p.name} - ₹${p.price} [${p.category}]`,
-//           })),
-//         ]);
-//       }
-//     } catch (err) {
-//       console.error(err);
-//       setMessages((prev) => [
-//         ...prev,
-//         { type: "bot", text: "Error fetching products." },
-//       ]);
-//     }
-//     setQuery("");
-//   };
-
-//   const handleReset = () => {
-//     if (window.confirm("Are you sure you want to reset the chat?")) {
-//       setMessages(welcomeText);
-//     }
-//   };
-
-//   return (
-//     <div className="mb-4 flex w-full h-full overflow-y-scroll overflow-x-hidden">
-//       <div className="bg-white p-4 rounded-xl shadow-xl max-w-2xl mx-auto">
-//         <div className="h-96 overflow-y-auto mb-4 space-y-2 border p-3 rounded bg-gray-50">
-//           {messages.map((msg, idx) => (
-//             <div
-//               key={idx}
-//               className={`p-2 rounded-xl max-w-[80%] ${
-//                 msg.type === "bot"
-//                   ? "bg-blue-100 text-left"
-//                   : "bg-green-100 text-right ml-auto"
-//               }`}
-//             >
-//               {msg.text}
-//             </div>
-//           ))}
-//         </div>
-//         <div className="flex gap-2">
-//           <input
-//             className="border p-2 rounded flex-1"
-//             placeholder="Type your query..."
-//             value={query}
-//             onChange={(e) => setQuery(e.target.value)}
-//             onKeyDown={(e) => e.key === "Enter" && sendQuery()}
-//           />
-//           <button
-//             onClick={sendQuery}
-//             className="bg-blue-500 text-white px-4 py-2 rounded"
-//           >
-//             Send
-//           </button>
-//           <button
-//           onClick={handleReset}
-//           className="px-4 py-0 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl shadow-md"
-//         >
-//           <MdOutlineDelete />
-//         </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ChatWindow;
 import axios from "axios";
-import React, { useState } from "react";
-import { MdOutlineDelete } from "react-icons/md";
+import React, { useState, useEffect } from "react";
+import { MdOutlineDelete, MdHistory } from "react-icons/md";
+import { IoMdClose } from "react-icons/io";
 
 const suggestions = [
   "cheap electronics",
@@ -126,57 +10,120 @@ const suggestions = [
   "between 20 and 100",
 ];
 
+const formatTimestamp = (isoString) => {
+  return new Date(isoString).toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
 const ChatWindow = ({ setProductResults, setQueryMessage }) => {
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
+
   const [query, setQuery] = useState("");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [historyMessages, setHistoryMessages] = useState([]);
+
   const welcomeText = [
     {
       type: "bot",
-      text: `Welcome 🌟 ${username} ! Need recommendations? Try these:`,
+      text: `Welcome 🌟 ${username}! Need recommendations? Try these:`,
+      timestamp: new Date().toISOString(),
     },
-    { type: "bot", text: `Example: ${suggestions.join(" / ")}` },
+    {
+      type: "bot",
+      text: `Example: ${suggestions.join(" / ")}`,
+      timestamp: new Date().toISOString(),
+    },
   ];
-  const [messages, setMessages] = useState(welcomeText);
+
+  useEffect(() => {
+    const fetchChatHistory = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/get-messages", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        const chatHistory = res.data.flatMap((msg) => [
+          {
+            type: "user",
+            text: msg.user_message,
+            timestamp: msg.timestamp,
+          },
+          {
+            type: "bot",
+            text: msg.bot_message,
+            timestamp: msg.timestamp,
+          },
+        ]);
+
+        setHistoryMessages(chatHistory); // Only store in history
+        setMessages(welcomeText); // Don't show in main chat
+      } catch (error) {
+        console.error("Failed to fetch chat history:", error);
+        setMessages(welcomeText);
+      }
+    };
+
+    fetchChatHistory();
+  }, []);
 
   const sendQuery = async () => {
     if (!query.trim()) return;
-    setMessages((prev) => [...prev, { type: "user", text: query }]);
+
+    const userMessage = {
+      type: "user",
+      text: query,
+      timestamp: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+
     try {
       const res = await axios.get(
         `http://localhost:5000/api/search-products?q=${query}`,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       const products = res.data;
       setProductResults(products);
       setQueryMessage(query);
+      const timestamp = new Date().toISOString();
 
       if (products.length === 0) {
         setMessages((prev) => [
           ...prev,
-          { type: "bot", text: "No products found!" },
+          { type: "bot", text: "No products found!", timestamp },
         ]);
       } else {
+        const productMessages = products.map((p) => ({
+          type: "bot",
+          text: `${p.name} - ₹${p.price} [${p.category}]`,
+          timestamp,
+        }));
+
         setMessages((prev) => [
           ...prev,
-          { type: "bot", text: `Found ${products.length} products:` },
-          ...products.map((p) => ({
-            type: "bot",
-            text: `${p.name} - ₹${p.price} [${p.category}]`,
-          })),
+          { type: "bot", text: `Found ${products.length} product(s):`, timestamp },
+          ...productMessages,
         ]);
       }
     } catch (err) {
       console.error(err);
       setMessages((prev) => [
         ...prev,
-        { type: "bot", text: "Error fetching products." },
+        {
+          type: "bot",
+          text: "Error fetching products.",
+          timestamp: new Date().toISOString(),
+        },
       ]);
     }
+
     setQuery("");
   };
 
@@ -187,9 +134,48 @@ const ChatWindow = ({ setProductResults, setQueryMessage }) => {
   };
 
   return (
-    <div className="flex flex-col w-full h-auto rounded-lg shadow-lg shadow-gray-500 border-1 border-gray-500 bg-white roboto-mono-new">
+    <div className="relative flex flex-col w-full h-auto rounded-lg shadow-lg border border-gray-300 bg-white roboto-mono-new">
+      {/* Chat History Drawer */}
+      {drawerOpen && (
+        <div className="absolute top-0 left-0 h-full w-64 bg-white shadow-lg border-r z-50 overflow-y-auto">
+          <div className="flex items-center justify-between p-4 border-b">
+            <h2 className="text-lg font-semibold">Chat History</h2>
+            <button onClick={() => setDrawerOpen(false)}>
+              <IoMdClose size={20} />
+            </button>
+          </div>
+          <div className="p-4 space-y-3 text-sm">
+            {historyMessages.map((msg, idx) => (
+              <div key={idx} className="border-b pb-2">
+                <p
+                  className={`font-medium ${
+                    msg.type === "user" ? "text-green-700" : "text-blue-700"
+                  }`}
+                >
+                  [{formatTimestamp(msg.timestamp)}]{" "}
+                  {msg.type === "user" ? "You" : "Bot"}:
+                </p>
+                <p className="text-gray-700">{msg.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="flex justify-between items-center p-3 border-b bg-gray-100 rounded-t-lg">
+        <h2 className="text-md font-bold">Chat with Quebot</h2>
+        <button
+          onClick={() => setDrawerOpen(!drawerOpen)}
+          className="flex items-center gap-1 bg-gray-200 px-3 py-1 rounded hover:bg-gray-300 text-sm"
+        >
+          <MdHistory />
+          History
+        </button>
+      </div>
+
       {/* Chat Area */}
-      <div className="h-72 overflow-y-auto space-y-2 p-4 bg-gray-50 rounded-t-lg border-b">
+      <div className="h-72 overflow-y-auto space-y-2 p-4 bg-gray-50">
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -199,13 +185,16 @@ const ChatWindow = ({ setProductResults, setQueryMessage }) => {
                 : "bg-green-100 text-right text-gray-900 ml-auto"
             }`}
           >
-            {msg.text}
+            <div>{msg.text}</div>
+            <div className="text-xs text-gray-500 mt-1">
+              {formatTimestamp(msg.timestamp)}
+            </div>
           </div>
         ))}
       </div>
 
       {/* Input Area */}
-      <div className="flex gap-2 p-3 bg-white rounded-b-lg border-t">
+      <div className="flex gap-2 p-3 bg-white border-t rounded-b-lg">
         <input
           className="border border-gray-300 rounded px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-300"
           placeholder="Type your query..."
@@ -215,13 +204,13 @@ const ChatWindow = ({ setProductResults, setQueryMessage }) => {
         />
         <button
           onClick={sendQuery}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white px-4 py-2 rounded"
         >
           Send
         </button>
         <button
           onClick={handleReset}
-          className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-full flex items-center justify-center"
+          className="cursor-pointer bg-gray-500 hover:bg-red-600 text-white px-3 py-2 rounded-full flex items-center justify-center"
         >
           <MdOutlineDelete size={20} />
         </button>

@@ -12,14 +12,14 @@ export const Navbar = () => {
   return (
     <header className="w-full shadow-sm bg-white poppins-regular ">
       <div className="mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-gray-800">Quebot</h1>
+        <h1 className="text-xl font-bold text-blue-800">Quebot</h1>
 
         {/* Desktop Menu */}
         <div className="hidden sm:flex items-center space-x-6">
           <p className="text-gray-700 font-medium">{username}</p>
           <button
             onClick={handleLogout}
-            className="px-4 py-1 bg-red-500 hover:bg-red-600 text-white cursor-pointer rounded transition duration-200"
+            className="px-4 py-1 bg-purple-500 hover:bg-red-600 text-white cursor-pointer rounded transition duration-200"
           >
             Log out
           </button>

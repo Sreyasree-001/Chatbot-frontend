@@ -27,9 +27,9 @@ const LandingPage = () => {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Chat Section */}
           <div className="w-full lg:w-1/3 p-4">
-            <h3 className="text-xl font-semibold text-center mb-3">
+            {/* <h3 className="text-xl font-semibold text-center mb-3">
               Chat with Quebot
-            </h3>
+            </h3> */}
             <ChatWindow
               setProductResults={setProductResults}
               setQueryMessage={setQueryMessage}

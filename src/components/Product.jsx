@@ -65,6 +65,10 @@ const Product = ({ searchedProducts, queryMessage }) => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
+  const handleCart = () =>{
+    //alert("Product added to cart !")
+  }
+
   return (
     <div>
       {loading && (
@@ -80,7 +84,7 @@ const Product = ({ searchedProducts, queryMessage }) => {
             {currentProducts.map((product) => (
               <div
                 key={product.id}
-                className="relative overflow-hidden rounded-xl bg-white shadow-lg transition-transform hover:-translate-y-1"
+                className="relative overflow-hidden rounded-xl bg-white shadow-xl border-2 border-gray-400 shadow-purple-400 transition-transform hover:-translate-y-1"
               >
                 {/* Product Image */}
                 <div className="w-full h-40 flex items-center justify-center bg-gray-50">
@@ -118,6 +122,10 @@ const Product = ({ searchedProducts, queryMessage }) => {
                     {product.description?.slice(0, 80) ||
                       "No description available."}
                   </p>
+                  <button 
+                  className="bg-green-500 hover:bg-green-600 p-2 text-sm rounded font-semibold cursor-pointer">
+                    Add to cart
+                  </button>
                 </div>
               </div>
             ))}
