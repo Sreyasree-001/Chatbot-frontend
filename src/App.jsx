@@ -7,6 +7,7 @@ import SignUp from './authentication/SignUp';
 import LandingPage from './components/LandingPage';
 import NotFound from './authentication/NotFound';
 import Protected from './authentication/Protected';
+import { Footer } from './components/Footer';
 
 function App() {
   
@@ -34,6 +35,7 @@ function App() {
         <Route path="*" element={<NotFound/>} />
       </Routes>
     </Router>
+    <Footer/>
     </>
   )
 }
