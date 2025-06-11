@@ -51,17 +51,17 @@ Token is sent in Authorization: Bearer <token> header for authenticated requests
 
 Chatbot greets the user by name and offers suggestions
 
-📦 Sample API Call with Token
+### 📦 Sample API Call with Token
 axios.get(`${API_URL}/products`, {
   headers: {
     Authorization: `Bearer ${token}`
   }
 });
 
-🙋‍♀️ Author
+### 🙋‍♀️ Author
 Sreyasree Sasmal
 🔗 Portfolio
 📫 sreyasree202@gmail.com
 
-📄 License
+### 📄 License
 This project is licensed under the MIT License.
