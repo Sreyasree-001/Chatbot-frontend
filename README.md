@@ -42,7 +42,7 @@ A modern and responsive frontend for an AI-powered e-commerce chatbot. This Reac
 
 ![interface](https://github.com/user-attachments/assets/2c34bc51-673d-4764-85f9-93cee616fbbe)
 
-# 🔐 Authentication Flow
+## 🔐 Authentication Flow
 User registers or logs in
 
 JWT token is saved in localStorage
