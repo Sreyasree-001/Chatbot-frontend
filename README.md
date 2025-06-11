@@ -60,7 +60,6 @@ axios.get(`${API_URL}/products`, {
 
 ### 🙋‍♀️ Author
 Sreyasree Sasmal
-🔗 Portfolio
 📫 sreyasree202@gmail.com
 
 ### 📄 License
