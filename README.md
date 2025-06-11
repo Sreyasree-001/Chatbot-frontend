@@ -23,16 +23,8 @@ A modern and responsive frontend for an AI-powered e-commerce chatbot. This Reac
 
 ## 🧱 Project Structure
 
-Chatbot-frontend/
-├── components/
-│ ├── Card.js
-│ └── Product.js
-├── pages/
-│ ├── Auth.js
-│ ├── Register.js
-│ ├── Unauth.js
-├── App.js
-└── main.jsx
+![image](https://github.com/user-attachments/assets/2dc732e9-8a67-4912-a956-98a4fe86ff88)
+
 
 
 ## 🚀 Getting Started
