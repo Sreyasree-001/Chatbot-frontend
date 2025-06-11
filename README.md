@@ -1,12 +1,73 @@
-# React + Vite
+# 💬 Chatbot Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive frontend for an AI-powered e-commerce chatbot. This React-based interface allows users to interact with the chatbot, ask product-related queries, and view dynamically rendered product cards.
 
-Currently, two official plugins are available:
+🔗 [Chatbot-server Backend Repo](https://github.com/Sreyasree-001/Chatbot-server)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🔐 JWT-based user authentication
+- 🧠 Chat interface with smart suggestions
+- 📦 Displays product data from MongoDB backend
+- 🎨 Styled with Tailwind CSS for a clean UI
+- 🔄 Dynamic rendering with loading states
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+- **Framework:** React.js (via [Vite](https://vitejs.dev/))
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Authentication:** JWT (stored in `localStorage`)
+- **HTTP Client:** Axios
+- **Others:** React Spinners, conditional rendering, responsive UI
+
+
+## 🧱 Project Structure
+
+Chatbot-frontend/
+├── components/
+│ ├── Card.js
+│ └── Product.js
+├── pages/
+│ ├── Auth.js
+│ ├── Register.js
+│ ├── Unauth.js
+├── App.js
+└── main.jsx
+
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Sreyasree-001/Chatbot-frontend.git
+   cd Chatbot-frontend
+2. npm install
+3. npm run dev
+4. Create a .env file and define your backend URL:
+    VITE_API_URL=http://localhost:5000
+   
+📸 Screenshots
+
+🔐 Authentication Flow
+User registers or logs in
+
+JWT token is saved in localStorage
+
+Token is sent in Authorization: Bearer <token> header for authenticated requests
+
+Chatbot greets the user by name and offers suggestions
+
+📦 Sample API Call with Token
+axios.get(`${API_URL}/products`, {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+});
+
+🙋‍♀️ Author
+Sreyasree Sasmal
+🔗 Portfolio
+📫 sreyasree202@gmail.com
+
+📄 License
+This project is licensed under the MIT License.
