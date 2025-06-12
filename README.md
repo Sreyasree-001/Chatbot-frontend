@@ -8,7 +8,7 @@ A modern and responsive frontend for an AI-powered e-commerce chatbot. This Reac
 
 - 🔐 JWT-based user authentication
 - 🧠 Chat interface with smart suggestions
-- 📦 Displays product data from MongoDB backend
+- 📦 Displays product data from MySQL backend
 - 🎨 Styled with Tailwind CSS for a clean UI
 - 🔄 Dynamic rendering with loading states
 
@@ -18,7 +18,7 @@ A modern and responsive frontend for an AI-powered e-commerce chatbot. This Reac
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **Authentication:** JWT (stored in `localStorage`)
 - **HTTP Client:** Axios
-- **Others:** React Spinners, conditional rendering, responsive UI
+- **Others:** react-router-dom, React Spinners, conditional rendering, responsive UI
 
 
 ## 🧱 Project Structure
