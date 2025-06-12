@@ -23,7 +23,8 @@ A modern and responsive frontend for an AI-powered e-commerce chatbot. This Reac
 
 ## 🧱 Project Structure
 
-![image](https://github.com/user-attachments/assets/192b03e6-2981-4d4f-984e-9e74d51ceddb)
+![image](https://github.com/user-attachments/assets/2ea7476f-18f7-41fb-9180-31f75c3844df)
+
 
 ## 🚀 Getting Started
 
