@@ -59,9 +59,11 @@ axios.get(`${API_URL}/products`, {
 });
 
 ### 🙋‍♀️ Author
-Sreyasree Sasmal
-📫 sreyasree202@gmail.com
+      Sreyasree Sasmal
+      📫 sreyasree202@gmail.com
 
 ### 📄 License
-This project is licensed under the MIT License.
+      This project is licensed under the MIT License.
+
+
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Sreyasree-001/Chatbot-frontend)
