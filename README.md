@@ -1,6 +1,6 @@
 # 💬 Chatbot Frontend
 
-A modern and responsive frontend for an AI-powered e-commerce chatbot. This React-based interface allows users to interact with the chatbot, ask product-related queries, and view dynamically rendered product cards.
+A modern and responsive frontend an e-commerce chatbot. This React-based interface allows users to interact with the chatbot, ask product-related queries, and view dynamically rendered product cards.
 
 🔗 [Chatbot-server Backend Repo](https://github.com/Sreyasree-001/Chatbot-server)
 
